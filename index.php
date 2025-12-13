@@ -11,7 +11,6 @@ if (!$connect) {
     die("Database Connection Failed: " . mysqli_connect_error());
 }
 
-
 // ---------------------------
 // USER AUTH CHECK
 // ---------------------------
@@ -67,48 +66,31 @@ $events = mysqli_query($connect, $query);
 
 <body>
 
-<!-- ========================= -->
-<!--     MODERN NAVBAR         -->
-<!-- ========================= -->
 <header class="nav-glass">
 
-    <!-- LEFT SIDE -->
     <div class="nav-left">
         <div class="logo">⚡ Zevent</div>
     </div>
 
-    <!-- CENTER - SEARCH BAR -->
     <form method="GET" class="search-box">
-        <svg class="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8"></circle>
-            <path d="m21 21-4.35-4.35"></path>
-        </svg>
         <input type="text" name="search" placeholder="Search events, cities, categories..." value="<?php echo htmlspecialchars($searchTerm); ?>">
         <button type="submit">Search</button>
     </form>
 
-    <!-- RIGHT SIDE -->
     <div class="nav-right">
 
-        <!-- SHOW ONLY IF LOGGED IN -->
         <?php if ($user_logged_in): ?>
 
-            <!-- MY BOOKINGS BUTTON -->
             <a href="pages/user/user_dashboard.php" class="nav-btn nav-btn-primary">
                 My Bookings
             </a>
 
-            <!-- PROFILE DROPDOWN MENU -->
             <div class="profile-menu">
-                
-                <!-- PROFILE ICON -->
                 <div class="profile-icon" onclick="toggleProfileMenu()">
                     <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($user_name); ?>&background=6366f1&color=fff&bold=true">
                 </div>
 
-                <!-- DROPDOWN -->
                 <div class="profile-dropdown" id="profileMenu">
-
                     <div class="profile-header">
                         <img src="https://ui-avatars.com/api/?name=<?php echo urlencode($user_name); ?>&background=6366f1&color=fff&bold=true">
                         <div>
@@ -119,65 +101,45 @@ $events = mysqli_query($connect, $query);
 
                     <div class="profile-divider"></div>
 
-                    <!-- NEW: MY DETAILS -->
-                    <a href="pages/user/user_profile.php" class="profile-link">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="12" cy="7" r="4"></circle>
-                            <path d="M5.5 21a6.5 6.5 0 0 1 13 0"></path>
-                        </svg>
-                        My Details
-                    </a>
-
-                    <!-- LOGOUT -->
-                    <a href="pages/logout.php" class="profile-link profile-link-danger">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
-                            <polyline points="16 17 21 12 16 7"></polyline>
-                            <line x1="21" y1="12" x2="9" y2="12"></line>
-                        </svg>
-                        Logout
-                    </a>
+                    <a href="pages/user/user_profile.php" class="profile-link">My Details</a>
+                    <a href="pages/logout.php" class="profile-link profile-link-danger">Logout</a>
                 </div>
             </div>
 
         <?php else: ?>
 
-            <!-- IF USER NOT LOGGED IN -->
-            <a href="pages/user/user_login.php" class="nav-btn nav-btn-primary">Login</a>
+            <a href="pages/auth/login.php" class="nav-btn nav-btn-primary">Login</a>
 
         <?php endif; ?>
 
-        <!-- HOST BUTTON -->
-        <a href="pages/host/host_login.php" class="nav-btn nav-btn-host">
-            Become a Host
-        </a>
+      <a href="pages/auth/login.php" class="nav-btn nav-btn-host">
+    Become a Host
+</a>
+
 
     </div>
-
 </header>
 
 <script>
 function toggleProfileMenu() {
     document.getElementById("profileMenu").classList.toggle("show");
 }
-
-window.onclick = function(event) {
-    if (!event.target.closest(".profile-menu")) {
-        let dropdown = document.getElementById("profileMenu");
-        dropdown.classList.remove("show");
-    }
-}
 </script>
-
 
 <!-- ========================= -->
 <!--       CONTENT AREA        -->
 <!-- ========================= -->
 <div class="container">
 
+    <!-- ✅ ONLY ADDED BLOCK -->
+    <?php if ($user_logged_in): ?>
+        <h3 style="color:#e5e7eb; margin-bottom:15px;">
+            Hello, <?php echo htmlspecialchars($user_name); ?>
+        </h3>
+    <?php endif; ?>
+
     <h2 class="section-title">Discover Events Near You</h2>
 
-    <!-- CATEGORY CHIPS -->
     <div class="chips-container">
 
         <a href="index.php" class="chip <?php echo ($selectedCategory == "") ? 'chip-active' : ''; ?>">
@@ -193,51 +155,41 @@ window.onclick = function(event) {
 
     </div>
 
-    <!-- EVENTS GRID -->
     <div class="event-grid">
 
-        <?php 
-        if ($events && mysqli_num_rows($events) > 0):
-            while ($ev = mysqli_fetch_assoc($events)):
+        <?php if ($events && mysqli_num_rows($events) > 0): ?>
+            <?php while ($ev = mysqli_fetch_assoc($events)): ?>
 
+                <?php
                 $img = !empty($ev['poster'])
                     ? "assets/uploads/" . htmlspecialchars($ev['poster'])
                     : "https://via.placeholder.com/300x450";
-        ?>
+                ?>
 
-        <a href="pages/events/event_details.php?id=<?php echo $ev['event_id']; ?>" class="event-card">
+                <a href="pages/events/event_details.php?id=<?php echo $ev['event_id']; ?>" class="event-card">
 
-            <div class="event-img-box">
-                <img src="<?php echo $img; ?>" class="event-img" alt="<?php echo htmlspecialchars($ev['event_title']); ?>">
-                <div class="price-tag">₹<?php echo htmlspecialchars($ev['price']); ?></div>
-                <div class="book-overlay">Book Now →</div>
-            </div>
+                    <div class="event-img-box">
+                        <img src="<?php echo $img; ?>" class="event-img">
+                        <div class="price-tag">₹<?php echo htmlspecialchars($ev['price']); ?></div>
+                        <div class="book-overlay">Book Now →</div>
+                    </div>
 
-            <h3 class="event-title"><?php echo htmlspecialchars($ev['event_title']); ?></h3>
-            <p class="event-meta">
-                <span><?php echo htmlspecialchars($ev['category']); ?></span> • 
-                <span><?php echo htmlspecialchars($ev['event_date']); ?></span>
-            </p>
+                    <h3 class="event-title"><?php echo htmlspecialchars($ev['event_title']); ?></h3>
+                    <p class="event-meta">
+                        <span><?php echo htmlspecialchars($ev['category']); ?></span> •
+                        <span><?php echo htmlspecialchars($ev['event_date']); ?></span>
+                    </p>
 
-        </a>
+                </a>
 
-        <?php endwhile; else: ?>
-
-        <div class="no-events">
-            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-            </svg>
-            <p>No events found matching your criteria.</p>
-            <a href="index.php" class="btn-reset">View All Events</a>
-        </div>
-
+            <?php endwhile; ?>
+        <?php else: ?>
+            <p>No events found.</p>
         <?php endif; ?>
 
     </div>
 
 </div>
-
+<?php include "includes/footer.php"; ?>
 </body>
 </html>

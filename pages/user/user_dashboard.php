@@ -176,6 +176,7 @@ if ($res && mysqli_num_rows($res) > 0) {
 ?>
 
 </div>
+<?php include "../../includes/footer.php"; ?>
 
 </body>
 </html>

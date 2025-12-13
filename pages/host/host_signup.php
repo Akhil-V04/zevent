@@ -1,15 +1,15 @@
 <?php
-include "../../includes/db_connect.php";
-
 session_start();
+include "../../includes/db_connect.php";
 
 $msg = "";
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name  = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
-    $upi   = $_POST['upi'];
+
+    $name  = mysqli_real_escape_string($connect, $_POST['name']);
+    $email = mysqli_real_escape_string($connect, $_POST['email']);
+    $phone = mysqli_real_escape_string($connect, $_POST['phone']);
+    $upi   = mysqli_real_escape_string($connect, $_POST['upi']);
     $pass  = $_POST['password'];
 
     $hash = password_hash($pass, PASSWORD_DEFAULT);
@@ -19,11 +19,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (mysqli_num_rows($check) > 0) {
         $msg = "Email already registered.";
     } else {
-      $q = "INSERT INTO hosts (name,email,password,phone,upi_id)
-      VALUES ('$name','$email','$hash','$phone','$upi')";
+
+        $q = "
+            INSERT INTO hosts (name,email,password,phone,upi_id)
+            VALUES ('$name','$email','$hash','$phone','$upi')
+        ";
 
         if (mysqli_query($connect, $q)) {
-            header("Location: host_login.php?registered=1");
+            // ✅ redirect to combined login page
+            header("Location: ../auth/login.php?registered=1");
             exit;
         } else {
             $msg = "Error: " . mysqli_error($connect);
@@ -34,12 +38,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="../../assets/css/style.css">
-
-
     <title>Host Signup - Zevent</title>
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
+
 <body>
+
 <h2>Host Signup</h2>
 
 <p style="color:red;"><?php echo $msg; ?></p>
@@ -54,6 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <button type="submit">Signup</button>
 </form>
 
-<p>Already a host? <a href="host_login.php">Login</a></p>
+<p>
+    Already a host?
+    <a href="../auth/login.php">Login</a>
+</p>
+<?php include "../../includes/footer.php"; ?>
+
 </body>
 </html>

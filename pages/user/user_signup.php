@@ -1,14 +1,13 @@
 <?php
-include "../../includes/db_connect.php";
-
 session_start();
+include "../../includes/db_connect.php";
 
 $msg = "";
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $name  = $_POST['name'];
-    $email = $_POST['email'];
-    $phone = $_POST['phone'];
+    $name  = mysqli_real_escape_string($connect, $_POST['name']);
+    $email = mysqli_real_escape_string($connect, $_POST['email']);
+    $phone = mysqli_real_escape_string($connect, $_POST['phone']);
     $pass  = $_POST['password'];
 
     $hash = password_hash($pass, PASSWORD_DEFAULT);
@@ -20,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $q = "INSERT INTO users (name,email,phone,password) 
               VALUES ('$name','$email','$phone','$hash')";
         if (mysqli_query($connect, $q)) {
-            header("Location: user_login.php?registered=1");
+            // ✅ redirect to combined login page
+            header("Location: ../auth/login.php?registered=1");
             exit;
         } else {
             $msg = "Error: " . mysqli_error($connect);
@@ -32,12 +32,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <html>
 <head>
     <title>User Signup - Zevent</title>
-<link rel="stylesheet" href="../../assets/css/style.css">
-
-
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
+
 <body>
+
 <h2>User Signup</h2>
+
 <p style="color:red;"><?php echo $msg; ?></p>
 
 <form method="post">
@@ -48,6 +49,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <button type="submit">Signup</button>
 </form>
 
-<p>Already have an account? <a href="user_login.php">Login</a></p>
+<p>
+    Already have an account?
+    <a href="../auth/login.php">Login</a>
+</p>
+<?php include "../../includes/footer.php"; ?>
+
 </body>
 </html>

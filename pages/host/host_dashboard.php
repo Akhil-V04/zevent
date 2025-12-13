@@ -252,6 +252,7 @@ $events = mysqli_query($connect, $sql);
 <?php endif; ?>
 
 </div>
+<?php include "../../includes/footer.php"; ?>
 
 </body>
 </html>

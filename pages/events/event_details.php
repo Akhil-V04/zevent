@@ -69,9 +69,9 @@ $sim = mysqli_query(
         <?php if ($user_logged_in): ?>
             <a href="../user/user_dashboard.php" class="nav-btn">My Bookings</a>
         <?php else: ?>
-            <a href="../user/user_login.php" class="nav-btn nav-btn-primary">Login</a>
+            <a href="../auth/login.php" class="nav-btn nav-btn-primary">Login</a>
         <?php endif; ?>
-        <a href="../host/host_login.php" class="nav-btn nav-btn-host">Become a Host</a>
+        <a href="../auth/login.php" class="nav-btn nav-btn-host">Become a Host</a>
     </div>
 </header>
 
@@ -134,6 +134,7 @@ if ($sim && mysqli_num_rows($sim) > 0) {
 </div>
 
 </div>
+<?php include "../../includes/footer.php"; ?>
 
 </body>
 </html>

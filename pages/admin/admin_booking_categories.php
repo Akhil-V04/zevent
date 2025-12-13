@@ -8,7 +8,7 @@ if (!isset($_SESSION['admin_id'])) {
 }
 
 // Fetch categories
-$categories = mysqli_query($conn, "SELECT DISTINCT category FROM events ORDER BY category ASC");
+$categories = mysqli_query($connect, "SELECT DISTINCT category FROM events ORDER BY category ASC");
 ?>
 <!DOCTYPE html>
 <html>
@@ -34,7 +34,7 @@ $categories = mysqli_query($conn, "SELECT DISTINCT category FROM events ORDER BY
         <a href="../logout.php" class="nav-btn nav-btn-host">Logout</a>
     </div>
 </header>
-
+<div class="admin-page">
 <div class="container">
 
     <h2 class="section-title">Bookings — Select Category</h2>

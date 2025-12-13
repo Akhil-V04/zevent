@@ -1,3 +1,4 @@
+<?php
 session_start();
 include "../../includes/db_connect.php";
 
@@ -10,12 +11,13 @@ if (!isset($_GET['category'])) {
     die("Invalid category");
 }
 
-$category = mysqli_real_escape_string($conn, $_GET['category']);
+$category = mysqli_real_escape_string($connect, $_GET['category']);
 
-$events = mysqli_query($conn,
+$events = mysqli_query($connect,
     "SELECT event_id, event_title, event_date
      FROM events
      WHERE category='$category'
+       AND approval_status='approved'
      ORDER BY event_date DESC"
 );
 ?>
@@ -23,8 +25,7 @@ $events = mysqli_query($conn,
 <html>
 <head>
     <title>Events in <?php echo $category; ?></title>
-<link rel="stylesheet" href="../../assets/css/style.css">
-
+    <link rel="stylesheet" href="../../assets/css/style.css">
 </head>
 
 <body>

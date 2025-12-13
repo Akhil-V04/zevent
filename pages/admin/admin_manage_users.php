@@ -67,7 +67,7 @@ $users = mysqli_query($conn, $sql);
         <a href="../logout.php" class="nav-btn nav-btn-host">Logout</a>
     </div>
 </header>
-
+<div class="admin-page">
 <div class="container">
 
 <h2 class="section-title">Manage Users</h2>

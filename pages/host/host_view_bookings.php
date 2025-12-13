@@ -152,6 +152,7 @@ $bookings = mysqli_query($connect, $bookingSQL);
     </table>
 
 </div>
+<?php include "../../includes/footer.php"; ?>
 
 </body>
 </html>
