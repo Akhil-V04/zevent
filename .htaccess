@@ -1,0 +1,4 @@
+RewriteEngine On
+
+# Secret Admin Login URL
+RewriteRule ^adminpanel$ /pages/admin/admin_login.php [L]
