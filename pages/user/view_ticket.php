@@ -53,6 +53,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=" . url
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ticket - <?php echo htmlspecialchars($t['event_title']); ?></title>
 <link rel="stylesheet" href="../../assets/css/style.css">
 

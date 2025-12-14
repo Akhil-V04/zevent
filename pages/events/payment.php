@@ -82,22 +82,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <!DOCTYPE html>
 <html>
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Payment - <?php echo $event['event_title']; ?></title>
     <link rel="stylesheet" href="../../assets/css/style.css">
 
     <style>
         body { padding-top:110px; }
 
-        .box {
-            width: 700px;
-            margin: auto;
-            background: rgba(255,255,255,0.08);
-            padding: 25px;
-            border-radius: 14px;
-            backdrop-filter: blur(8px);
-            box-shadow: 0 4px 20px rgba(0,0,0,0.4);
-            color: white;
-        }
+       .box {
+    max-width: 700px;
+    width: 100%;
+    margin: auto;
+    background: rgba(255,255,255,0.08);
+    padding: 25px;
+    border-radius: 14px;
+    backdrop-filter: blur(8px);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+    color: white;
+}
+
 
         .qr-box {
             background: rgba(255,255,255,0.12);
@@ -125,13 +128,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         .input {
-            padding: 12px;
-            width: 70%;
-            border-radius: 8px;
-            background: rgba(255,255,255,0.12);
-            border: 1px solid #475569;
-            color: #fff;
-        }
+    padding: 12px;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid #475569;
+    color: #fff;
+}
+
     </style>
 </head>
 
